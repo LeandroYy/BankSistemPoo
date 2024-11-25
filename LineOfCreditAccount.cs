@@ -2,7 +2,8 @@ using System;
 
 
 namespace Classes
-{
+{   
+    //Herdando a classe BankAccount
     class LineOfCreditAccount : BankAccount
     {
         public LineOfCreditAccount(string name, decimal initialBalance, decimal creditLimit) : base(name, initialBalance, -creditLimit)

@@ -3,7 +3,8 @@ using System;
 namespace Classes
 {
     class BankAccount
-    {
+    {    
+        //Propriedades 
         private static int s_accountNumberSeed = 1234567890;
         public string Number { get; }
         public string Owner { get; set; }
@@ -20,9 +21,13 @@ namespace Classes
             }
         }
 
+        //Métodos
+
+        //encapsulamento 
         private readonly decimal _minimumBalance;
 
-        public BankAccount(string name, decimal initialBalance) : this(name, initialBalance,0){}
+        //modificando os consrtutores
+        public BankAccount(string name, decimal initialBalance) : this(name, initialBalance, 0) { }
         public BankAccount(string name, decimal initialBalance, decimal minimumBalance)
         {
             Number = s_accountNumberSeed.ToString();
@@ -30,11 +35,11 @@ namespace Classes
 
             this.Owner = name;
             _minimumBalance = minimumBalance;
-            if(initialBalance > 0)
+            if (initialBalance > 0)
             {
                 MakeDeposit(initialBalance, DateTime.Now, "Initial balance");
             }
-            
+
         }
 
         private List<Transaction> _allTransactions = new List<Transaction>();
@@ -52,39 +57,42 @@ namespace Classes
 
         public void MakeWithdrawal(decimal amount, DateTime date, string note)
         {
-            if(amount <= 0)
+            if (amount <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawl must be positive");
             }
-            
+
             Transaction? overdraftTransaction = CheckWithdrawalLimit(Balance - amount < _minimumBalance);
-            Transaction? withdrawal = new (-amount, date, note);
+            Transaction? withdrawal = new(-amount, date, note);
             _allTransactions.Add(withdrawal);
-            if(overdraftTransaction != null)
+            if (overdraftTransaction != null)
             {
                 _allTransactions.Add(overdraftTransaction);
             }
         }
 
+        //Polimorfismo
         protected virtual Transaction? CheckWithdrawalLimit(bool isOverDrawn)
         {
-            if(isOverDrawn)
+            if (isOverDrawn)
             {
                 throw new InvalidOperationException("Not sufficient funds for this withdrawal");
-            }else
+            }
+            else
             {
                 return default;
             }
         }
-        
+
         public string GetAccountHistory()
         {
             var report = new System.Text.StringBuilder();
-            decimal balance = 0; 
+
+            decimal balance = 0;
             report.AppendLine("Date\t\tAmount\tBalance\tNote");
             foreach (var item in _allTransactions)
             {
-                balance =+ item.Amount;
+                balance += item.Amount;
                 report.AppendLine($"{item.Date.ToShortDateString()}\t{item.Amount}\t{balance}\t{item.Notes}");
             }
 
@@ -92,7 +100,7 @@ namespace Classes
         }
 
         public virtual void PerformMonthEndTransactions()
-        { 
+        {
 
         }
 
