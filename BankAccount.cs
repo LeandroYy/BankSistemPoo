@@ -8,6 +8,8 @@ namespace Classes
         private static int s_accountNumberSeed = 1234567890;
         public string Number { get; }
         public string Owner { get; set; }
+
+        //propriedade que ja faz o calculo de quanto dinheiro tem na conta atraves de um loop na Lista.
         public decimal Balance
         {
             get
@@ -42,8 +44,11 @@ namespace Classes
 
         }
 
+        //Encapsulamento
         private List<Transaction> _allTransactions = new List<Transaction>();
 
+
+        //Metodo Depositar
         public void MakeDeposit(decimal amount, DateTime date, string note)
         {
             if (amount <= 0)
@@ -55,8 +60,11 @@ namespace Classes
             _allTransactions.Add(deposit);
         }
 
+
+        //Metodo Sacar
         public void MakeWithdrawal(decimal amount, DateTime date, string note)
-        {
+        {   
+            
             if (amount <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrawl must be positive");
@@ -84,6 +92,7 @@ namespace Classes
             }
         }
 
+        //StringBuilder para escrever as trasações
         public string GetAccountHistory()
         {
             var report = new System.Text.StringBuilder();

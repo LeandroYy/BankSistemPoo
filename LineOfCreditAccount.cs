@@ -1,6 +1,6 @@
 using System;
 
-
+//Abstração criando nova classe para essa conta
 namespace Classes
 {   
     //Herdando a classe BankAccount
@@ -9,6 +9,8 @@ namespace Classes
         public LineOfCreditAccount(string name, decimal initialBalance, decimal creditLimit) : base(name, initialBalance, -creditLimit)
         {
         }
+
+        //Polimorfismo
         public override void PerformMonthEndTransactions()
         {
             if (Balance < 0)
@@ -18,6 +20,8 @@ namespace Classes
                 MakeWithdrawal(interest, DateTime.Now, "Charge monthly interest");
             }
         }
+
+        //Polimorfismo
         protected override Transaction? CheckWithdrawalLimit(bool isOverDrawn) =>
         isOverDrawn
         ? new Transaction(-20, DateTime.Now, "Apply overdraft fee")
